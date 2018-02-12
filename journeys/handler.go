@@ -4,38 +4,26 @@ import (
     "github.com/gin-gonic/gin"
     "net/http"
     "github.com/kinnou02/gormungandr/response"
-    zmq "github.com/pebbe/zmq2"
+    zmq "github.com/pebbe/zmq4"
     "github.com/kinnou02/gormungandr/navitia"
     "github.com/golang/protobuf/proto"
     "time"
 
-    "fmt"
 )
 
 func JourneysHandler(c *gin.Context) {
-    r := response.JourneysResponse{[]response.Journey{
-        response.Journey{
-            From: response.Place{"place:1", "my place"},
-            To: response.Place{"place:2", "some other place"},
-            Sections: []response.Section{
-                {
-                    From: response.Place{"place:1", "my place"},
-                    To: response.Place{"place:2", "some other place"},
-                },
-            },
-        },
-    }}
 
     req := BuildRequest(c.Query("from"), c.Query("to"))
     requester, _ := zmq.NewSocket(zmq.REQ)
     defer requester.Close()
-    requester.Connect("tcp://localhost:30000")
+    requester.Connect("tcp://localhost:3000")
     data, _ := proto.Marshal(req)
     requester.Send(string(data), 0)
     raw_resp, _ := requester.Recv(0)
     resp := &pbnavitia.Response{}
     _ = proto.Unmarshal([]byte(raw_resp), resp)
-    fmt.Println(resp)
+    r := response.NewJourneysReponse(resp)
+//    fmt.Println(resp)
     c.JSON(http.StatusOK, r)
 }
 
