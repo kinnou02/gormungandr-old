@@ -4,7 +4,9 @@
 # for detailed Gopkg.toml documentation.
 #
 # required = ["github.com/user/thing/cmd/thing"]
-# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+ignored = ["github.com/kinnou02/pbnavitia",
+           "github.com/kinnou02/navitia-responses-serializer",
+           "github.com/kinnou02/navitia-responses"]
 #
 # [[constraint]]
 #   name = "github.com/user/project"
