@@ -3,9 +3,9 @@ package journeys
 import (
     "github.com/gin-gonic/gin"
     "net/http"
-    "github.com/kinnou02/gormungandr/response"
+    serializer "github.com/kinnou02/navitia-responses-serializer"
     zmq "github.com/pebbe/zmq4"
-    "github.com/kinnou02/gormungandr/navitia"
+    "github.com/kinnou02/pbnavitia"
     "github.com/golang/protobuf/proto"
     "time"
 
@@ -22,7 +22,7 @@ func JourneysHandler(c *gin.Context) {
     raw_resp, _ := requester.Recv(0)
     resp := &pbnavitia.Response{}
     _ = proto.Unmarshal([]byte(raw_resp), resp)
-    r := response.NewJourneysReponse(resp)
+    r := serializer.NewJourneysReponse(resp)
 //    fmt.Println(resp)
     c.JSON(http.StatusOK, r)
 }
