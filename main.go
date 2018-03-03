@@ -42,13 +42,14 @@ func init_log(logjson bool) {
 func main() {
     listen := flag.String("listen", ":8080", "[IP]:PORT to listen")
     timeout := flag.Duration("timeout", time.Second, "timeour for call to kraken")
+    kraken := flag.String("kraken", "tcp://localhost:30000", "zmq addr for kraken")
     logjson := flag.Bool("logjson", false, "enable json logging")
     flag.Parse()
     init_log(*logjson)
     logrus.Info("timeout: %s", *timeout)
 
     r := setupRouter()
-    r.GET("/journeys", journeys.JourneysHandler(*timeout))
+    r.GET("/journeys", journeys.JourneysHandler(*kraken, *timeout))
     // Listen and Server in 0.0.0.0:8080
     r.Run(*listen)
 }

@@ -12,10 +12,10 @@ import (
     log "github.com/sirupsen/logrus"
 )
 
-func JourneysHandler(timeout time.Duration) gin.HandlerFunc {
+func JourneysHandler(kraken string, timeout time.Duration) gin.HandlerFunc {
     fn := func(c *gin.Context) {
         req := BuildRequest(c.Query("from"), c.Query("to"))
-        resp, err := CallKraken(req, timeout)
+        resp, err := CallKraken(kraken, req, timeout)
         if err != nil {
             log.Error("failure to call kraken %s", err)
             c.JSON(http.StatusInternalServerError, gin.H{"error": err})
@@ -28,10 +28,10 @@ func JourneysHandler(timeout time.Duration) gin.HandlerFunc {
     return gin.HandlerFunc(fn)
 }
 
-func CallKraken(request *pbnavitia.Request,
+func CallKraken(kraken string, request *pbnavitia.Request,
                 timeout time.Duration) (*pbnavitia.Response, error){
     requester, _ := zmq.NewSocket(zmq.REQ)
-    requester.Connect("tcp://localhost:3000")
+    requester.Connect(kraken)
     defer requester.Close()
     data, _ := proto.Marshal(request)
     requester.Send(string(data), 0)
