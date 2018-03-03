@@ -30,16 +30,19 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/kinnou02/gonavitia"
+  packages = [
+    "responses",
+    "serializer"
+  ]
+  revision = "5a4a1ac0b20bc87d31cb8b1e38e47ec0a03ea296"
+
+[[projects]]
   name = "github.com/mattn/go-isatty"
   packages = ["."]
   revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
   version = "v0.0.3"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/pebbe/zmq4"
-  packages = ["."]
-  revision = "f3ad6202c431f3abb8bbe02a51c453489cf866a3"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -83,6 +86,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ba2f4a205185af3e0e34da6f8ac9caafd2cb528270f1f96035f1a3154722ef7f"
+  inputs-digest = "c21eb61abba241b15586cd42bf629c07b64071d7259bc30c68068fe3028c4af8"
   solver-name = "gps-cdcl"
   solver-version = 1
