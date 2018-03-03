@@ -48,6 +48,18 @@ func BuildRequest(from, to string) *pbnavitia.Request {
 		WalkingTransferPenalty: proto.Int(120),
 		DirectPathDuration:     proto.Int(30 * 60),
 		BikeInPt:               proto.Bool(false),
+		StreetnetworkParams:    &pbnavitia.StreetNetworkParams{
+			OriginMode:	proto.String("walking"),
+			DestinationMode: proto.String("walking"),
+			WalkingSpeed: proto.Float64(1.11),
+			BikeSpeed: proto.Float64(1.11),
+			BssSpeed: proto.Float64(1.11),
+			CarSpeed: proto.Float64(1.11),
+			MaxWalkingDurationToPt: proto.Int32(30*60),
+			MaxBikeDurationToPt: proto.Int32(30*60),
+			MaxBssDurationToPt: proto.Int32(30*60),
+			MaxCarDurationToPt: proto.Int32(30*60),
+		},
 	}
 	req := &pbnavitia.Request{
 		RequestedApi: pbnavitia.API_PLANNER.Enum(),
