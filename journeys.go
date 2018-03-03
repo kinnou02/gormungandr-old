@@ -1,4 +1,4 @@
-package gormungandr
+package main
 
 import (
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ func JourneysHandler(kraken *gonavitia.Kraken) gin.HandlerFunc {
 		req := BuildRequest(c.Query("from"), c.Query("to"))
 		resp, err := kraken.Call(req)
 		if err != nil {
-			log.Error("failure to call kraken %s", err)
+			log.Errorf("FATAL: %+v\n", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
