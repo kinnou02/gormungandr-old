@@ -8,6 +8,12 @@
   revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/gin-gonic/contrib"
+  packages = ["ginrus"]
+  revision = "dccbb4a462e965297e21372a9ad3ea05e0df3e5f"
+
+[[projects]]
   name = "github.com/gin-gonic/gin"
   packages = [
     ".",
@@ -33,7 +39,13 @@
   branch = "master"
   name = "github.com/pebbe/zmq4"
   packages = ["."]
-  revision = "6decad45434f1cddeccf1dc5d9d86d8249decd19"
+  revision = "f3ad6202c431f3abb8bbe02a51c453489cf866a3"
+
+[[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  revision = "d682213848ed68c0a260ca37d6dd5ace8423f5ba"
+  version = "v1.0.4"
 
 [[projects]]
   name = "github.com/ugorji/go"
@@ -43,8 +55,17 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  revision = "49796115aa4b964c318aad4f3084fdb41e9aa067"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = [
+    "unix",
+    "windows"
+  ]
   revision = "f6cff0780e542efa0c8e864dc8fa522808f6a598"
 
 [[projects]]
@@ -62,6 +83,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0e8b7bd12c404b232817a6ff53ba23cd1f399efcfab6041b8f61f8206c21a488"
+  inputs-digest = "ba2f4a205185af3e0e34da6f8ac9caafd2cb528270f1f96035f1a3154722ef7f"
   solver-name = "gps-cdcl"
   solver-version = 1

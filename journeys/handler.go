@@ -3,52 +3,54 @@ package journeys
 import (
     "github.com/gin-gonic/gin"
     "net/http"
-    serializer "github.com/kinnou02/navitia-responses-serializer"
-    zmq "github.com/pebbe/zmq4"
+    "github.com/kinnou02/gonavitia/serializer"
+    zmq "github.com/pebbe/zmq2"
     "github.com/kinnou02/pbnavitia"
     "github.com/golang/protobuf/proto"
     "time"
-
+    "errors"
+    log "github.com/sirupsen/logrus"
 )
 
-func JourneysHandler(c *gin.Context) {
+func JourneysHandler(timeout time.Duration) gin.HandlerFunc {
+    fn := func(c *gin.Context) {
+        req := BuildRequest(c.Query("from"), c.Query("to"))
+        resp, err := CallKraken(req, timeout)
+        if err != nil {
+            log.Error("failure to call kraken %s", err)
+            c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+            return
+        }
+        r := serializer.NewJourneysReponse(resp)
+    //    fmt.Println(resp)
+        c.JSON(http.StatusOK, r)
+    }
+    return gin.HandlerFunc(fn)
+}
 
-    req := BuildRequest(c.Query("from"), c.Query("to"))
+func CallKraken(request *pbnavitia.Request,
+                timeout time.Duration) (*pbnavitia.Response, error){
     requester, _ := zmq.NewSocket(zmq.REQ)
-    defer requester.Close()
     requester.Connect("tcp://localhost:3000")
-    data, _ := proto.Marshal(req)
+    defer requester.Close()
+    data, _ := proto.Marshal(request)
     requester.Send(string(data), 0)
-    raw_resp, _ := requester.Recv(0)
+    poller := zmq.NewPoller()
+    poller.Add(requester, zmq.POLLIN)
+    p, err := poller.Poll(timeout)
+    if err != nil {
+        return nil, err
+    }
+    if len(p) < 1 {
+        return nil, errors.New("fucked")
+    }
+    raw_resp, _ := p[0].Socket.Recv(0)
     resp := &pbnavitia.Response{}
     _ = proto.Unmarshal([]byte(raw_resp), resp)
-    r := serializer.NewJourneysReponse(resp)
-//    fmt.Println(resp)
-    c.JSON(http.StatusOK, r)
+    return resp, nil
 }
 
 
-/*
-type JourneysRequest struct {
-	Origin                 []*LocationContext   `protobuf:"bytes,1,rep,name=origin" json:"origin,omitempty"`
-	Destination            []*LocationContext   `protobuf:"bytes,2,rep,name=destination" json:"destination,omitempty"`
-	Datetimes              []uint64             `protobuf:"varint,3,rep,name=datetimes" json:"datetimes,omitempty"`
-	Clockwise              *bool                `protobuf:"varint,4,req,name=clockwise" json:"clockwise,omitempty"`
-	ForbiddenUris          []string             `protobuf:"bytes,5,rep,name=forbidden_uris" json:"forbidden_uris,omitempty"`
-	MaxDuration            *int32               `protobuf:"varint,6,req,name=max_duration" json:"max_duration,omitempty"`
-	MaxTransfers           *int32               `protobuf:"varint,7,req,name=max_transfers" json:"max_transfers,omitempty"`
-	StreetnetworkParams    *StreetNetworkParams `protobuf:"bytes,8,opt,name=streetnetwork_params" json:"streetnetwork_params,omitempty"`
-	Wheelchair             *bool                `protobuf:"varint,9,opt,name=wheelchair,def=0" json:"wheelchair,omitempty"`
-	ShowCodes              *bool                `protobuf:"varint,11,opt,name=show_codes" json:"show_codes,omitempty"`
-	Details                *bool                `protobuf:"varint,13,opt,name=details" json:"details,omitempty"`
-	RealtimeLevel          *RTLevel             `protobuf:"varint,14,opt,name=realtime_level,enum=pbnavitia.RTLevel" json:"realtime_level,omitempty"`
-	MaxExtraSecondPass     *int32               `protobuf:"varint,15,opt,name=max_extra_second_pass,def=0" json:"max_extra_second_pass,omitempty"`
-	WalkingTransferPenalty *int32               `protobuf:"varint,16,opt,name=walking_transfer_penalty,def=120" json:"walking_transfer_penalty,omitempty"`
-	DirectPathDuration     *int32               `protobuf:"varint,17,opt,name=direct_path_duration" json:"direct_path_duration,omitempty"`
-	BikeInPt               *bool                `protobuf:"varint,18,opt,name=bike_in_pt" json:"bike_in_pt,omitempty"`
-	AllowedId              []string             `protobuf:"bytes,19,rep,name=allowed_id" json:"allowed_id,omitempty"`
-	XXX_unrecognized       []byte               `json:"-"`
-*/
 
 func BuildRequest(from, to string) *pbnavitia.Request{
     j := &pbnavitia.JourneysRequest{

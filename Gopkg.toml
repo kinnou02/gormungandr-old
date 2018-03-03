@@ -5,8 +5,8 @@
 #
 # required = ["github.com/user/thing/cmd/thing"]
 ignored = ["github.com/kinnou02/pbnavitia",
-           "github.com/kinnou02/navitia-responses-serializer",
-           "github.com/kinnou02/navitia-responses"]
+           "github.com/kinnou02/gonavitia",
+          ]
 #
 # [[constraint]]
 #   name = "github.com/user/project"
