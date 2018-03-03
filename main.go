@@ -1,12 +1,10 @@
-package main
+package gormungandr
 
 import (
 	"flag"
 	"github.com/gin-gonic/contrib/ginrus"
 	"github.com/gin-gonic/gin"
 	"github.com/kinnou02/gonavitia"
-	"github.com/kinnou02/gormungandr/handlers"
-	"github.com/kinnou02/gormungandr/journeys"
 	"github.com/sirupsen/logrus"
 	"os"
 	"time"
@@ -19,7 +17,7 @@ func setupRouter() *gin.Engine {
 
 	r.Use(ginrus.Ginrus(logrus.StandardLogger(), time.RFC3339, false))
 
-	r.GET("/status", handlers.Index)
+	r.GET("/status", Index)
 
 	return r
 }
@@ -53,7 +51,7 @@ func main() {
 	}
 
 	r := setupRouter()
-	r.GET("/journeys", journeys.JourneysHandler(kraken))
+	r.GET("/journeys", JourneysHandler(kraken))
 	// Listen and Server in 0.0.0.0:8080
 	r.Run(*listen)
 }

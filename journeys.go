@@ -1,4 +1,4 @@
-package journeys
+package gormungandr
 
 import (
 	"github.com/gin-gonic/gin"
