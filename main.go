@@ -8,6 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"os"
 	"time"
+	"github.com/prometheus/client_golang/prometheus/promhttp"	
 )
 
 func setupRouter() *gin.Engine {
@@ -18,6 +19,7 @@ func setupRouter() *gin.Engine {
 	r.Use(ginrus.Ginrus(logrus.StandardLogger(), time.RFC3339, false))
 
 	r.GET("/status", Index)
+	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	return r
 }
@@ -44,11 +46,7 @@ func main() {
 	flag.Parse()
 	init_log(*logjson)
 
-	kraken := &gonavitia.Kraken{
-		Name:    "default",
-		Timeout: *timeout,
-		Addr:    *kraken_addr,
-	}
+	kraken := gonavitia.NewKraken("default", *kraken_addr, *timeout)
 
 	r := setupRouter()
 	r.GET("/journeys", JourneysHandler(kraken))
