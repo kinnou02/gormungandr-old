@@ -5,7 +5,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/kinnou02/gonavitia"
 	"github.com/kinnou02/gonavitia/serializer"
-	"github.com/kinnou02/pbnavitia"
+	"github.com/kinnou02/gonavitia/pbnavitia"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"

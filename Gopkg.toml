@@ -4,9 +4,7 @@
 # for detailed Gopkg.toml documentation.
 #
 # required = ["github.com/user/thing/cmd/thing"]
-ignored = ["github.com/kinnou02/pbnavitia",
-           "github.com/kinnou02/gonavitia",
-          ]
+#ignored = ["github.com/kinnou02/gonavitia",]
 #
 # [[constraint]]
 #   name = "github.com/user/project"
@@ -34,10 +32,6 @@ ignored = ["github.com/kinnou02/pbnavitia",
 [[constraint]]
   name = "github.com/golang/protobuf"
   version = "1.0.0"
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/pebbe/zmq4"
 
 [prune]
   go-tests = true

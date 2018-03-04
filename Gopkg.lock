@@ -39,10 +39,12 @@
   branch = "master"
   name = "github.com/kinnou02/gonavitia"
   packages = [
+    ".",
+    "pbnavitia",
     "responses",
     "serializer"
   ]
-  revision = "5a4a1ac0b20bc87d31cb8b1e38e47ec0a03ea296"
+  revision = "05276d9a73466d007d29a5a6644d520e93fc7a07"
 
 [[projects]]
   name = "github.com/mattn/go-isatty"
@@ -55,6 +57,18 @@
   packages = ["pbutil"]
   revision = "3247c84500bff8d9fb6d579d800f20b3e091582c"
   version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/pebbe/zmq2"
+  packages = ["."]
+  revision = "f3ad6202c431f3abb8bbe02a51c453489cf866a3"
+
+[[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   name = "github.com/prometheus/client_golang"
@@ -99,6 +113,12 @@
   version = "v1.0.4"
 
 [[projects]]
+  name = "github.com/sony/gobreaker"
+  packages = ["."]
+  revision = "e9556a45379ef1da12e54847edb2fb3d7d566f36"
+  version = "0.3.0"
+
+[[projects]]
   name = "github.com/ugorji/go"
   packages = ["codec"]
   revision = "9831f2c3ac1068a78f50999a30db84270f647af6"
@@ -134,6 +154,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9748a64ee1c6b2894d68d1ae46bf441bacbcba47ce33e6194a3319a483668414"
+  inputs-digest = "af00af336e96d8342a4685384b72aac221522e80d79a3e466ecdcd5500ae2b31"
   solver-name = "gps-cdcl"
   solver-version = 1
