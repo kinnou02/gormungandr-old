@@ -44,7 +44,7 @@
     "responses",
     "serializer"
   ]
-  revision = "05276d9a73466d007d29a5a6644d520e93fc7a07"
+  revision = "7fef5b6929861d226a372bf724e6875e38d65dd5"
 
 [[projects]]
   name = "github.com/mattn/go-isatty"
@@ -60,9 +60,9 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/pebbe/zmq2"
+  name = "github.com/pebbe/zmq4"
   packages = ["."]
-  revision = "f3ad6202c431f3abb8bbe02a51c453489cf866a3"
+  revision = "6decad45434f1cddeccf1dc5d9d86d8249decd19"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -128,7 +128,7 @@
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
-  revision = "49796115aa4b964c318aad4f3084fdb41e9aa067"
+  revision = "91a49db82a88618983a78a06c1cbd4e00ab749ab"
 
 [[projects]]
   branch = "master"
@@ -137,7 +137,7 @@
     "unix",
     "windows"
   ]
-  revision = "f6cff0780e542efa0c8e864dc8fa522808f6a598"
+  revision = "dd2ff4accc098aceecb86b36eaa7829b2a17b1c9"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
