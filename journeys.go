@@ -1,14 +1,15 @@
 package main
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 	"github.com/kinnou02/gonavitia"
-	"github.com/kinnou02/gonavitia/serializer"
 	"github.com/kinnou02/gonavitia/pbnavitia"
+	"github.com/kinnou02/gonavitia/serializer"
 	log "github.com/sirupsen/logrus"
-	"net/http"
-	"time"
 )
 
 func JourneysHandler(kraken *gonavitia.Kraken) gin.HandlerFunc {
@@ -48,17 +49,17 @@ func BuildRequest(from, to string) *pbnavitia.Request {
 		WalkingTransferPenalty: proto.Int(120),
 		DirectPathDuration:     proto.Int(30 * 60),
 		BikeInPt:               proto.Bool(false),
-		StreetnetworkParams:    &pbnavitia.StreetNetworkParams{
-			OriginMode:	proto.String("walking"),
-			DestinationMode: proto.String("walking"),
-			WalkingSpeed: proto.Float64(1.11),
-			BikeSpeed: proto.Float64(1.11),
-			BssSpeed: proto.Float64(1.11),
-			CarSpeed: proto.Float64(1.11),
-			MaxWalkingDurationToPt: proto.Int32(30*60),
-			MaxBikeDurationToPt: proto.Int32(30*60),
-			MaxBssDurationToPt: proto.Int32(30*60),
-			MaxCarDurationToPt: proto.Int32(30*60),
+		StreetnetworkParams: &pbnavitia.StreetNetworkParams{
+			OriginMode:             proto.String("walking"),
+			DestinationMode:        proto.String("walking"),
+			WalkingSpeed:           proto.Float64(1.11),
+			BikeSpeed:              proto.Float64(1.11),
+			BssSpeed:               proto.Float64(1.11),
+			CarSpeed:               proto.Float64(1.11),
+			MaxWalkingDurationToPt: proto.Int32(30 * 60),
+			MaxBikeDurationToPt:    proto.Int32(30 * 60),
+			MaxBssDurationToPt:     proto.Int32(30 * 60),
+			MaxCarDurationToPt:     proto.Int32(30 * 60),
 		},
 	}
 	req := &pbnavitia.Request{

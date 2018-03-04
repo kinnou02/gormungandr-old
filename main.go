@@ -2,13 +2,14 @@ package main
 
 import (
 	"flag"
+	"os"
+	"time"
+
 	"github.com/gin-gonic/contrib/ginrus"
 	"github.com/gin-gonic/gin"
 	"github.com/kinnou02/gonavitia"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
-	"os"
-	"time"
-	"github.com/prometheus/client_golang/prometheus/promhttp"	
 )
 
 func setupRouter() *gin.Engine {
@@ -51,5 +52,8 @@ func main() {
 	r := setupRouter()
 	r.GET("/journeys", JourneysHandler(kraken))
 	// Listen and Server in 0.0.0.0:8080
-	r.Run(*listen)
+	err := r.Run(*listen)
+	if err != nil {
+		logrus.Errorf("failure to start: %+v", err)
+	}
 }
