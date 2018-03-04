@@ -12,10 +12,22 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+type JourneysRequest struct {
+	From     string    `form:"from" binding:"required"`
+	To       string    `form:"to" binding:"required"`
+	Datetime time.Time `form:"datetime" time_format:"20060102150405"`
+}
+
 func JourneysHandler(kraken *gonavitia.Kraken) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		req := BuildRequest(c.Query("from"), c.Query("to"))
-		resp, err := kraken.Call(req)
+		var request JourneysRequest
+		if err := c.ShouldBindQuery(&request); err != nil {
+			log.Errorf("FATAL: %+v\n", err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err})
+			return
+		}
+		pb_req := BuildRequest(request)
+		resp, err := kraken.Call(pb_req)
 		if err != nil {
 			log.Errorf("FATAL: %+v\n", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
@@ -28,14 +40,14 @@ func JourneysHandler(kraken *gonavitia.Kraken) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func BuildRequest(from, to string) *pbnavitia.Request {
+func BuildRequest(req JourneysRequest) *pbnavitia.Request {
 	j := &pbnavitia.JourneysRequest{
 		Origin: []*pbnavitia.LocationContext{{
-			Place:          proto.String(from),
+			Place:          proto.String(req.From),
 			AccessDuration: proto.Int32(0)},
 		},
 		Destination: []*pbnavitia.LocationContext{{
-			Place:          proto.String(to),
+			Place:          proto.String(req.To),
 			AccessDuration: proto.Int32(0)},
 		},
 		Datetimes:              []uint64{uint64(time.Now().Unix())},
@@ -62,10 +74,10 @@ func BuildRequest(from, to string) *pbnavitia.Request {
 			MaxCarDurationToPt:     proto.Int32(30 * 60),
 		},
 	}
-	req := &pbnavitia.Request{
+	pb_req := &pbnavitia.Request{
 		RequestedApi: pbnavitia.API_PLANNER.Enum(),
 		Journeys:     j,
 	}
 
-	return req
+	return pb_req
 }
