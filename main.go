@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/ginrus"
 	"github.com/gin-gonic/gin"
 	"github.com/kinnou02/gonavitia"
@@ -18,6 +19,12 @@ func setupRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 
 	r.Use(ginrus.Ginrus(logrus.StandardLogger(), time.RFC3339, false))
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://*"},
+		AllowHeaders:     []string{"Access-Control-Request-Headers", "Authorization"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	r.GET("/status", Index)
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))

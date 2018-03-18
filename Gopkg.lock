@@ -8,6 +8,12 @@
   revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
 
 [[projects]]
+  name = "github.com/gin-contrib/cors"
+  packages = ["."]
+  revision = "cf4846e6a636a76237a28d9286f163c132e841bc"
+  version = "v1.2"
+
+[[projects]]
   branch = "master"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -51,7 +57,7 @@
     "responses",
     "serializer"
   ]
-  revision = "2aa4c4d7fba358c12f8382a5e8ac421271003007"
+  revision = "c8b6c559dc124c92a89d8b1a000c47b10d21a872"
 
 [[projects]]
   name = "github.com/mattn/go-isatty"
@@ -173,6 +179,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0a7743a98e2b73cb111e9bd4b2e84913ea9e1e7f3ecb08cd28efc29d58ef1e27"
+  inputs-digest = "f3e5870f50fe73de99ca1ef3b9b625f2a74f797174fa79e14274d30042bf07e2"
   solver-name = "gps-cdcl"
   solver-version = 1
